@@ -1,0 +1,1 @@
+./gradlew -b build-test.gradle npmContainerizedTask -i

@@ -1,0 +1,16 @@
+group 'com.dimafeng'
+
+apply plugin: 'groovy'
+apply plugin: "maven"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile(gradleApi())
+    apply plugin: 'announce'
+    compile("org.testcontainers:testcontainers:$testcontainersVersion") {
+        exclude group: 'junit'
+    }
+}
