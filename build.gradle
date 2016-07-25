@@ -1,10 +1,21 @@
 group 'com.dimafeng'
 
-apply plugin: 'groovy'
-apply plugin: "maven"
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.1"
+    }
+}
+
+apply plugin: "java"
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
 
 repositories {
-    mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -12,5 +23,56 @@ dependencies {
     apply plugin: 'announce'
     compile("org.testcontainers:testcontainers:$testcontainersVersion") {
         exclude group: 'junit'
+    }
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from 'build/docs/javadoc'
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar, javadocJar
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+}
+
+bintray {
+    user = project.hasProperty('bintrayUser') ? project.bintrayUser : System.getenv('BINTRAY_USER')
+    key = project.hasProperty('bintrayKey') ? project.bintrayKey : System.getenv('BINTRAY_KEY')
+    publications = ['mavenJava']
+    pkg {
+        repo = 'com.dimafeng'
+        userOrg = 'dimafeng'
+        name = 'containerized-tasks'
+        licenses = ['MIT']
+        websiteUrl = 'https://github.com/dimafeng/containerized-tasks'
+        issueTrackerUrl = 'https://github.com/dimafeng/containerized-tasks/issues'
+        vcsUrl = 'https://github.com/dimafeng/containerized-tasks.git'
+        labels = ['gradle', 'docker', 'npm', 'gulp', 'grunt']
+        version {
+            name = project.version
+            released  = new Date()
+            vcsTag = project.version
+//            mavenCentralSync {
+//                sync = false //Optional (true by default). Determines whether to sync the version to Maven Central.
+//                user = 'userToken' //OSS user token
+//                password = 'paasword' //OSS user password
+//                close = '1' //Optional property. By default the staging repository is closed and artifacts are released to Maven Central. You can optionally turn this behaviour off (by puting 0 as value) and release the version manually.
+//            }
+        }
     }
 }
