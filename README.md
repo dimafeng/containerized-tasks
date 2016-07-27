@@ -21,7 +21,18 @@ get **the same result!**
 
 ## Setup
 
-TODO
+```groovy
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "com.dimafeng:containerized-tasks:0.1.0"
+    }
+}
+...
+apply plugin: 'containerizedTask'
+```
 
 ## Requirements
 
