@@ -21,17 +21,29 @@ get **the same result!**
 
 ## Setup
 
-```groovy
+Build script snippet for use in all Gradle versions:
+
+```
 buildscript {
-    repositories {
-        jcenter()
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
     }
-    dependencies {
-        classpath "com.dimafeng:containerized-tasks:0.1.0"
-    }
+  }
+  dependencies {
+    classpath "gradle.plugin.com.dimafeng:containerized-tasks:0.1.0"
+  }
 }
-...
-apply plugin: 'containerizedTask'
+
+apply plugin: "com.dimafeng.containerizedTask"
+```
+
+Build script snippet for new, incubating, plugin mechanism introduced in Gradle 2.1:
+
+```
+plugins {
+  id "com.dimafeng.containerizedTask" version "0.1.0"
+}
 ```
 
 ## Requirements
