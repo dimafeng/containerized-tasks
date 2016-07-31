@@ -2,17 +2,21 @@ group 'com.dimafeng'
 
 buildscript {
     repositories {
-        jcenter()
+        //jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.1"
+        classpath "com.gradle.publish:plugin-publish-plugin:0.9.5"
     }
 }
 
 apply plugin: "java"
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.bintray'
+//apply plugin: 'com.jfrog.bintray'
+apply plugin: "com.gradle.plugin-publish"
 
 repositories {
     jcenter()
@@ -50,29 +54,43 @@ publishing {
     }
 }
 
-bintray {
-    user = project.hasProperty('bintrayUser') ? project.bintrayUser : System.getenv('BINTRAY_USER')
-    key = project.hasProperty('bintrayKey') ? project.bintrayKey : System.getenv('BINTRAY_KEY')
-    publications = ['mavenJava']
-    pkg {
-        repo = 'com.dimafeng'
-        userOrg = 'dimafeng'
-        name = 'containerized-tasks'
-        licenses = ['MIT']
-        websiteUrl = 'https://github.com/dimafeng/containerized-tasks'
-        issueTrackerUrl = 'https://github.com/dimafeng/containerized-tasks/issues'
-        vcsUrl = 'https://github.com/dimafeng/containerized-tasks.git'
-        labels = ['gradle', 'docker', 'npm', 'gulp', 'grunt']
-        version {
-            name = project.version
-            released  = new Date()
-            vcsTag = project.version
-//            mavenCentralSync {
-//                sync = false //Optional (true by default). Determines whether to sync the version to Maven Central.
-//                user = 'userToken' //OSS user token
-//                password = 'paasword' //OSS user password
-//                close = '1' //Optional property. By default the staging repository is closed and artifacts are released to Maven Central. You can optionally turn this behaviour off (by puting 0 as value) and release the version manually.
-//            }
+//bintray {
+//    user = project.hasProperty('bintrayUser') ? project.bintrayUser : System.getenv('BINTRAY_USER')
+//    key = project.hasProperty('bintrayKey') ? project.bintrayKey : System.getenv('BINTRAY_KEY')
+//    publications = ['mavenJava']
+//    pkg {
+//        repo = 'com.dimafeng'
+//        userOrg = 'dimafeng'
+//        name = 'containerized-tasks'
+//        licenses = ['MIT']
+//        websiteUrl = 'https://github.com/dimafeng/containerized-tasks'
+//        issueTrackerUrl = 'https://github.com/dimafeng/containerized-tasks/issues'
+//        vcsUrl = 'https://github.com/dimafeng/containerized-tasks.git'
+//        labels = ['gradle', 'docker', 'npm', 'gulp', 'grunt']
+//        version {
+//            name = project.version
+//            released  = new Date()
+//            vcsTag = project.version
+////            mavenCentralSync {
+////                sync = false //Optional (true by default). Determines whether to sync the version to Maven Central.
+////                user = 'userToken' //OSS user token
+////                password = 'paasword' //OSS user password
+////                close = '1' //Optional property. By default the staging repository is closed and artifacts are released to Maven Central. You can optionally turn this behaviour off (by puting 0 as value) and release the version manually.
+////            }
+//        }
+//    }
+//}
+
+pluginBundle {
+    website = 'https://github.com/dimafeng/containerized-tasks'
+    vcsUrl = 'https://github.com/dimafeng/containerized-tasks'
+    description = 'Gradle plugin that allows launching tasks inside docker containers'
+    tags = ['docker', 'npm', 'grunt', 'gulp', 'webpack']
+
+    plugins {
+        greetingsPlugin {
+            id = 'com.dimafeng.containerizedTask'
+            displayName = 'Containerized Task'
         }
     }
 }
