@@ -4,12 +4,13 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.dimafeng:containerized-tasks:0.1.0-SNAPSHOT'
+        classpath 'com.dimafeng:containerized-tasks:0.2.0-SNAPSHOT'
     }
 }
 
-apply plugin: 'containerizedTask'
+apply plugin: 'com.dimafeng.containerizedTask'
 
 npmContainerizedTask {
     sourcesDir = 'test-env/gulp'
+    outputLevel = 'INFO' // ALL, DEBUG
 }

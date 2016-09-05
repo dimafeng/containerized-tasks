@@ -2,15 +2,16 @@ package com.dimafeng.containerizedtasks;
 
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
-import org.gradle.api.GradleScriptException;
 import org.gradle.api.InvalidUserDataException;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.TaskAction;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public abstract class ContainerizedTask extends DefaultTask {
 
@@ -18,6 +19,9 @@ public abstract class ContainerizedTask extends DefaultTask {
 
     @Input
     public String buildDirPostfix = "";
+
+    @Input
+    public String outputLevel = "ALL";
 
     public abstract String getSourcesDir();
 
@@ -45,14 +49,30 @@ public abstract class ContainerizedTask extends DefaultTask {
 
         preRun(sources, buildDir);
 
+        Consumer<String> outConsumer = System.out::println;
+        Consumer<String> errConsumer = System.err::println;
+        switch (OutputLevels.fromString(outputLevel)) {
+            case INFO: {
+                outConsumer = getLogger()::info;
+                errConsumer = getLogger()::error;
+                break;
+            }
+            case DEBUG: {
+                outConsumer = getLogger()::debug;
+                errConsumer = getLogger()::error;
+                break;
+            }
+        }
+
         int exitCode = DockerRunner.runScript(
                 getImageName(),
                 buildDir,
                 sources,
                 getScriptBody(),
                 getAdditionalVolumeBinds(),
-                m -> getLogger().info(m),
-                m -> getLogger().error(m));
+                outConsumer,
+                errConsumer
+        );
 
         if (exitCode > 0) {
             throw new GradleException("Script finished with exit code " + exitCode);
@@ -62,6 +82,17 @@ public abstract class ContainerizedTask extends DefaultTask {
     protected void check(boolean check, String message) {
         if (!check) {
             throw new InvalidUserDataException(message);
+        }
+    }
+
+    enum OutputLevels {
+        ALL, INFO, DEBUG;
+
+        static OutputLevels fromString(String name) {
+            return Arrays.stream(OutputLevels.values())
+                    .filter(ol -> ol.name().equalsIgnoreCase(name))
+                    .findFirst()
+                    .orElseThrow(IllegalArgumentException::new);
         }
     }
 }

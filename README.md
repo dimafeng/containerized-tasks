@@ -31,7 +31,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "gradle.plugin.com.dimafeng:containerized-tasks:0.1.0"
+    classpath "gradle.plugin.com.dimafeng:containerized-tasks:0.2.0"
   }
 }
 
@@ -42,7 +42,7 @@ Build script snippet for new, incubating, plugin mechanism introduced in Gradle 
 
 ```
 plugins {
-  id "com.dimafeng.containerizedTask" version "0.1.0"
+  id "com.dimafeng.containerizedTask" version "0.2.0"
 }
 ```
 
@@ -52,16 +52,27 @@ plugins {
 
 ## Quick Start
 
+Execution of node.js related environment:
+
 ```groovy
 npmContainerizedTask {
-    sourcesDir = 'test-env/gulp'
+    sourcesDir = 'src/clientSide'
     //imageName = 'monostream/nodejs-gulp-bower';
     //scriptBody = 'npm install\ngulp'
+    //outputLevel = 'INFO' // 'ALL', 'DEBUG'
 }
 ```
-* sourcesDir - location of your node.js sources
+* sourcesDir - location of the folder with `package.json`
 * imageName - docker image which the task will be executed in
 * scriptBody - script that should be launched
+* outputLevel - the level of logging which all container output will be going to. E.g. if it's set
+to 'INFO' the output will be available with `-info` gradle option. 'ALL' is default.
+
+## Release notes
+
+* **0.2.0**
+    * `outputLevel` option
+    * Newer version of *test-containers*
 
 ## License
 

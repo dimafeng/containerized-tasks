@@ -1,1 +1,1 @@
-./gradlew -b build-test.gradle npmContainerizedTask -i
+./gradlew -b build-test.gradle npmContainerizedTask
