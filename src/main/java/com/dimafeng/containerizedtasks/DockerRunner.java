@@ -87,13 +87,13 @@ public class DockerRunner {
 
                 FrameConsumerResultCallback callback = new FrameConsumerResultCallback();
                 callback.addConsumer(OutputFrame.OutputType.STDERR, fr -> {
-                    if (fr.getBytes() != null) stderrConsumer.accept(fr.getUtf8String());
+                    if (fr.getBytes() != null) stderrConsumer.accept(fr.getUtf8String().trim());
                 });
                 callback.addConsumer(OutputFrame.OutputType.STDOUT, fr -> {
-                    if (fr.getBytes() != null) stdoutConsumer.accept(fr.getUtf8String());
+                    if (fr.getBytes() != null) stdoutConsumer.accept(fr.getUtf8String().trim());
                 });
                 callback.addConsumer(OutputFrame.OutputType.END, fr -> {
-                    if (fr.getBytes() != null) stdoutConsumer.accept(fr.getUtf8String());
+                    if (fr.getBytes() != null) stdoutConsumer.accept(fr.getUtf8String().trim());
                 });
                 dockerClient.startContainerCmd(exec.getId()).exec();
                 dockerClient.logContainerCmd(exec.getId()).withFollowStream(true).withStdErr(true).withStdOut(true).exec(callback);
