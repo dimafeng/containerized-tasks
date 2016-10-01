@@ -31,7 +31,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "gradle.plugin.com.dimafeng:containerized-tasks:0.2.0"
+    classpath "gradle.plugin.com.dimafeng:containerized-tasks:0.4.0"
   }
 }
 
@@ -42,7 +42,7 @@ Build script snippet for new, incubating, plugin mechanism introduced in Gradle 
 
 ```
 plugins {
-  id "com.dimafeng.containerizedTask" version "0.2.0"
+  id "com.dimafeng.containerizedTask" version "0.4.0"
 }
 ```
 
