@@ -33,7 +33,7 @@ public class DockerRunner {
 
             try {
                 String scriptWithDebugInfo = Arrays.stream(scriptBody.split("\n"))
-                        .flatMap(cmd -> Stream.of("echo \" Running: " + cmd + "\"", cmd))
+                        .flatMap(cmd -> Stream.of("echo ' Running: " + cmd + "'", cmd))
                         .collect(joining("\n"));
 
                 Files.write(script, scriptWithDebugInfo.getBytes());
