@@ -33,7 +33,6 @@ public class DockerRunner {
 
             try {
                 String scriptWithDebugInfo = Arrays.stream(scriptBody.split("\n"))
-                        .flatMap(cmd -> Stream.of("echo ' Running: " + cmd + "'", cmd))
                         .collect(joining("\n"));
 
                 Files.write(script, scriptWithDebugInfo.getBytes());
@@ -50,7 +49,7 @@ public class DockerRunner {
 
             return DockerCommandExecutor.getInstance()
                     .run(imageName, WORKING_DIR,
-                            new String[]{"sh", SCRIPTS_DIR + "/" + script.getFileName().toString()}, binds, stdoutConsumer, stderrConsumer);
+                            new String[]{"sh", "-x", SCRIPTS_DIR + "/" + script.getFileName().toString()}, binds, stdoutConsumer, stderrConsumer);
         } finally {
             try {
                 Files.delete(script);
