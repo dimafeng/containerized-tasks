@@ -70,6 +70,9 @@ to 'INFO' the output will be available with `-info` gradle option. 'ALL' is defa
 
 ## Release notes
 
+* **0.5.2**
+    * TestContainers 
+
 * **0.5.1**
     * Fix of #2
 
