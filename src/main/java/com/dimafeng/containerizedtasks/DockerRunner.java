@@ -1,12 +1,12 @@
 package com.dimafeng.containerizedtasks;
 
+import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.command.CreateContainerResponse;
+import com.github.dockerjava.api.model.Bind;
+import com.github.dockerjava.api.model.Volume;
 import org.testcontainers.DockerClientFactory;
 import org.testcontainers.containers.output.FrameConsumerResultCallback;
 import org.testcontainers.containers.output.OutputFrame;
-import org.testcontainers.shaded.com.github.dockerjava.api.DockerClient;
-import org.testcontainers.shaded.com.github.dockerjava.api.command.CreateContainerResponse;
-import org.testcontainers.shaded.com.github.dockerjava.api.model.Bind;
-import org.testcontainers.shaded.com.github.dockerjava.api.model.Volume;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,7 +16,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -27,7 +26,7 @@ public class DockerRunner {
     public static final String SCRIPTS_DIR = "/tmp/build";
 
     public static int runScript(String imageName, Path buildDir, Path workspaceDir, String scriptBody,
-                                    Map<String, String> additionalBinds, Consumer<String> stdoutConsumer, Consumer<String> stderrConsumer) {
+                                Map<String, String> additionalBinds, Consumer<String> stdoutConsumer, Consumer<String> stderrConsumer) {
         Path script = buildDir.resolve(new Date().getTime() + ".sh");
         try {
 
