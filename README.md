@@ -31,7 +31,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "gradle.plugin.com.dimafeng:containerized-tasks:0.5.1"
+    classpath "gradle.plugin.com.dimafeng:containerized-tasks:0.5.2"
   }
 }
 
@@ -42,7 +42,7 @@ Build script snippet for new, incubating, plugin mechanism introduced in Gradle 
 
 ```
 plugins {
-  id "com.dimafeng.containerizedTask" version "0.5.1"
+  id "com.dimafeng.containerizedTask" version "0.5.2"
 }
 ```
 
@@ -71,7 +71,7 @@ to 'INFO' the output will be available with `-info` gradle option. 'ALL' is defa
 ## Release notes
 
 * **0.5.2**
-    * TestContainers 
+    * TestContainers 1.4.2
 
 * **0.5.1**
     * Fix of #2
