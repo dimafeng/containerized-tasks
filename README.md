@@ -31,7 +31,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "gradle.plugin.com.dimafeng:containerized-tasks:0.5.2"
+    classpath "gradle.plugin.com.dimafeng:containerized-tasks:0.5.3"
   }
 }
 
@@ -42,7 +42,7 @@ Build script snippet for new, incubating, plugin mechanism introduced in Gradle 
 
 ```
 plugins {
-  id "com.dimafeng.containerizedTask" version "0.5.2"
+  id "com.dimafeng.containerizedTask" version "0.5.3"
 }
 ```
 
@@ -69,6 +69,9 @@ npmContainerizedTask {
 to 'INFO' the output will be available with `-info` gradle option. 'ALL' is default.
 
 ## Release notes
+
+* **0.5.3**
+    * Fixed plugin-publish-plugin 
 
 * **0.5.2**
     * TestContainers 1.4.2
