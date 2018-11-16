@@ -71,6 +71,8 @@ public class DockerRunner {
 
             DockerClient dockerClient = DockerClientFactory.instance().client();
 
+            DockerClientFactory.instance().checkAndPullImage(dockerClient, imageName);
+
             CreateContainerResponse exec = dockerClient
                     .createContainerCmd(imageName)
                     .withWorkingDir(workingDir)
